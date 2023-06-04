@@ -1,5 +1,6 @@
 module.exports = {
   packagerConfig: {
+    icon: "./public/assets/macOS/HackerRankMacOS",
     protocols: [
       {
         name: "Electron Fiddle",
