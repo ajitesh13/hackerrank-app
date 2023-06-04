@@ -1,4 +1,4 @@
-const { app, BrowserWindow, systemPreferences, dialog } = require("electron");
+const { app, BrowserWindow, systemPreferences } = require("electron");
 const path = require("path");
 
 if (process.defaultApp) {
@@ -16,7 +16,7 @@ const createWindow = (testLink) => {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    // kiosk: true,
+    kiosk: true,
     fullscreen: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
