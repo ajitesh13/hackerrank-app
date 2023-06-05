@@ -37,9 +37,7 @@ const createWindow = (testLink) => {
   //   (e) => {}
   // );
 
-  console.log("testLink", testLink);
-
-  mainWindow.loadURL("https://hr.gs/11233");
+  mainWindow.loadURL(testLink || "https://hr.gs/11233");
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -55,6 +53,25 @@ const createWindow = (testLink) => {
     askForCameraPermission();
   });
 };
+
+app.whenReady().then((e) => {
+  // Event handler for the 'open-electron-app' message
+  createWindow();
+});
+
+app.on("open-url", (event, url) => {
+  event.preventDefault();
+  const parsedUrl = new URL(url);
+  const testLink = parsedUrl.searchParams.get("testLink");
+  createWindow(testLink);
+});
+
+// Quit when all windows are closed, except on macOS.
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});
 
 // const mainSession = mainWindow.webContents.session;
 // // and load the index.html of the app.
@@ -99,18 +116,6 @@ const createWindow = (testLink) => {
 //   }
 // });
 // };
-
-app.whenReady().then((e) => {
-  // Event handler for the 'open-electron-app' message
-  createWindow("https://www.google.com");
-});
-
-// Quit when all windows are closed, except on macOS.
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
-});
 
 // app.on("activate", () => {
 //   // On macOS, re-create a window when the dock icon is clicked and no other windows are open.
